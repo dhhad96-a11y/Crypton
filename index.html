@@ -132,7 +132,7 @@ body.authlocked .shell{display:none}
 
 <section id="accounts" class="panel">
   <article class="card">
-    <div class="cardhead"><div class="ico">👥</div><div><h2>إنشاء حساب جديد</h2><p class="desc">أنشئ حسابًا باسم مستخدم وكلمة مرور وحدد مدة صلاحيته. بصفتك المالك يمكنك أيضًا منح حساب محدد صلاحية إنشاء حسابات أخرى.</p></div></div>
+    <div class="cardhead"><div class="ico">👥</div><div><h2>إنشاء حساب جديد</h2><p class="desc">أنشئ حسابًا وحدد مدة صلاحيته، ويمكنك منح صلاحية إنشاء الحسابات أو حذفها لكل حساب بشكل مستقل.</p></div></div>
     <div class="grid">
       <div><label class="fieldlabel" for="newUsername">اسم المستخدم</label><input class="input" id="newUsername" autocomplete="off" placeholder="مثال: user01"></div>
       <div><label class="fieldlabel" for="newPassword">كلمة المرور</label><input class="input" id="newPassword" type="password" autocomplete="new-password" placeholder="كلمة مرور للحساب"></div>
@@ -142,12 +142,16 @@ body.authlocked .shell{display:none}
     <div id="grantPermissionField" style="display:none;margin-top:12px;padding:12px;border:1px solid #2c4e7c;border-radius:12px;background:#0a1424">
       <label style="display:flex;align-items:center;gap:10px;cursor:pointer">
         <input id="grantCreatePermission" type="checkbox" style="width:18px;height:18px;accent-color:#438cff">
-        <span><strong>منح صلاحية إنشاء حسابات</strong><br><span class="smallnote">عند تفعيلها، يستطيع هذا المستخدم إنشاء حسابات أخرى فقط، ولا يستطيع منح الصلاحية لغيره أو حذف الحسابات.</span></span>
+        <span><strong>منح صلاحية إنشاء حسابات</strong><br><span class="smallnote">عند تفعيلها، يستطيع هذا المستخدم إنشاء حسابات أخرى فقط، ولا يستطيع منح الصلاحيات لغيره.</span></span>
+      </label>
+      <label style="display:flex;align-items:center;gap:10px;cursor:pointer;margin-top:12px">
+        <input id="grantDeletePermission" type="checkbox" style="width:18px;height:18px;accent-color:#438cff">
+        <span><strong>منح صلاحية حذف الحسابات</strong><br><span class="smallnote">عند تفعيلها، يستطيع هذا المستخدم حذف الحسابات من القائمة، ولا يستطيع منح هذه الصلاحية لغيره.</span></span>
       </label>
     </div>
     <div class="row" style="margin-top:14px"><button class="btn" id="createAccountBtn">＋ إنشاء الحساب</button><button class="btn secondary" id="refreshAccountsBtn">تحديث القائمة</button></div>
     <div id="accountStatus" class="status" role="status" aria-live="polite"></div>
-    <p class="smallnote">ملاحظة: في هذه النسخة، الحسابات تعمل على نفس المتصفح والجهاز فقط. لا تشارك بيانات المالك؛ كلمة مرور المالك مضمّنة في ملف HTML ولا تُعدّ وسيلة آمنة لخادم عام.</p>
+    <p class="smallnote">مهم: تعمل الحسابات المنشأة على نفس المتصفح والجهاز فقط في هذه النسخة. إذا كان الشخص يسجّل من هاتف آخر، فستحتاج المنصة إلى قاعدة بيانات وخادم مصادقة. افتح الموقع عبر HTTPS لتعمل ميزات التحقق الآمن من كلمة المرور.</p>
   </article>
   <article class="card accounttools">
     <div class="cardhead"><div class="ico">▤</div><div><h2>الحسابات المنشأة</h2><p class="desc">يمكنك حذف حساب من هذه القائمة. الحسابات المنتهية لا تستطيع تسجيل الدخول.</p></div></div>
@@ -334,7 +338,7 @@ $("downloadReport").onclick=()=>{if(!reportData)return;download(te.encode(JSON.s
  const readAccounts = () => { try { const a=JSON.parse(localStorage.getItem(STORE_KEY)||"[]"); return Array.isArray(a)?a:[]; } catch { return []; } };
  const saveAccounts = a => localStorage.setItem(STORE_KEY, JSON.stringify(a));
  const setMsg = (id,msg,kind="") => { const el=$(id); if(el){el.textContent=msg;el.className="status "+kind;} };
- const clean = s => String(s||"").trim();
+ const clean = s => String(s||"").trim().normalize("NFKC");
  const esc = s => String(s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
  async function hashPassword(password, saltHex) {
    const enc = new TextEncoder();
@@ -346,18 +350,24 @@ $("downloadReport").onclick=()=>{if(!reportData)return;download(te.encode(JSON.s
  function getSession(){try{return JSON.parse(sessionStorage.getItem(SESSION_KEY)||"null")}catch{return null}}
  function isOwner(){return !!activeSession && activeSession.username===OWNER_USER && activeSession.owner===true}
  function canCreateAccounts(){return isOwner() || !!(activeSession && activeSession.canCreateAccounts===true)}
+ function canDeleteAccounts(){return isOwner() || !!(activeSession && activeSession.canDeleteAccounts===true)}
  function showApp(session){
+   if(session.expiresAt && Date.now()>=session.expiresAt){logout("انتهت مدة الحساب. سجّل الدخول بعد تجديد الصلاحية.");return}
    activeSession=session;
    $("authGate").style.display="none";
    document.body.classList.remove("authlocked");
-   $("currentUserLabel").textContent=session.username+(session.owner?" · المالك":(session.canCreateAccounts?" · مسؤول حسابات":""));
+   const roles=session.owner?" · المالك":[session.canCreateAccounts?"إنشاء حسابات":"",session.canDeleteAccounts?"حذف حسابات":""].filter(Boolean).join(" + ");
+   $("currentUserLabel").textContent=session.username+(roles?" · "+roles:"");
    document.querySelectorAll(".adminOnly").forEach(el=>el.style.display=session.owner?"inline-flex":"none");
    const accountsTab=$("accountsTab");
-   if(accountsTab)accountsTab.style.display=(session.owner||session.canCreateAccounts)?"inline-flex":"none";
+   if(accountsTab)accountsTab.style.display=(session.owner||session.canCreateAccounts||session.canDeleteAccounts)?"inline-flex":"none";
    const grantField=$("grantPermissionField");
    if(grantField)grantField.style.display=session.owner?"block":"none";
+   const createBtn=$("createAccountBtn");
+   if(createBtn)createBtn.style.display=(session.owner||session.canCreateAccounts)?"inline-flex":"none";
+   const refreshBtn=$("refreshAccountsBtn");
+   if(refreshBtn)refreshBtn.style.display=(session.owner||session.canCreateAccounts||session.canDeleteAccounts)?"inline-flex":"none";
    sessionStorage.setItem(SESSION_KEY,JSON.stringify(session));
-   if(session.expiresAt && Date.now()>=session.expiresAt){logout("انتهت مدة الحساب. سجّل الدخول بعد تجديد الصلاحية.");return}
  }
  function logout(message=""){
    activeSession=null;sessionStorage.removeItem(SESSION_KEY);
@@ -373,23 +383,25 @@ $("downloadReport").onclick=()=>{if(!reportData)return;download(te.encode(JSON.s
    const username=clean($("loginUser").value),password=$("loginPass").value;
    if(!username||!password){setMsg("loginStatus","أدخل اسم الحساب وكلمة المرور.","bad");return}
    if(username===OWNER_USER&&password===OWNER_PASS){showApp({username:OWNER_USER,owner:true,expiresAt:null});setMsg("loginStatus","");return}
-   const accounts=readAccounts(),idx=accounts.findIndex(a=>a.username.toLowerCase()===username.toLowerCase());
+   if(!crypto || !crypto.subtle){setMsg("loginStatus","تسجيل الدخول الآمن يحتاج إلى HTTPS. افتح رابط الموقع المستضاف بدل فتح ملف HTML مباشرة.","bad");return}
+   const accounts=readAccounts(),idx=accounts.findIndex(a=>clean(a.username).toLocaleLowerCase()===username.toLocaleLowerCase());
    if(idx<0){setMsg("loginStatus","الحساب أو كلمة المرور غير صحيحة.","bad");return}
    const a=accounts[idx];
    if(Date.now()>=a.expiresAt){setMsg("loginStatus","انتهت صلاحية هذا الحساب. تواصل مع المالك.","bad");return}
    try{const h=await hashPassword(password,a.salt);if(h.hash!==a.hash){setMsg("loginStatus","الحساب أو كلمة المرور غير صحيحة.","bad");return}}
-   catch{setMsg("loginStatus","تعذر التحقق من كلمة المرور في هذا المتصفح.","bad");return}
-   showApp({username:a.username,owner:false,canCreateAccounts:a.canCreateAccounts===true,expiresAt:a.expiresAt});
+   catch{setMsg("loginStatus","تعذر التحقق الآمن من كلمة المرور. افتح الصفحة عبر HTTPS أو من خادم محلي، وليس عبر file:// إذا كان Chrome يعطّل Web Crypto.","bad");return}
+   showApp({username:a.username,owner:false,canCreateAccounts:a.canCreateAccounts===true,canDeleteAccounts:a.canDeleteAccounts===true,expiresAt:a.expiresAt});
    setMsg("loginStatus","");
  }
  function renderAccounts(){
    const root=$("accountsList");if(!root)return;
+   if(!canCreateAccounts()&&!canDeleteAccounts()&&!isOwner()){root.innerHTML='<div style="padding:12px" class="hint">لا تملك صلاحية إدارة الحسابات.</div>';return}
    const a=readAccounts();
    if(!a.length){root.innerHTML='<div style="padding:12px" class="hint">لا توجد حسابات منشأة حتى الآن.</div>';return}
-   const rows=a.map((x,i)=>`<tr><td>${esc(x.username)}</td><td>${new Date(x.expiresAt).toLocaleString("ar")}</td><td>${Date.now()>=x.expiresAt?'<span style="color:#ff7185">منتهي</span>':'<span style="color:#3be0ad">نشط</span>'}</td><td>${isOwner()?`<button class="btn danger" data-delete-account="${i}" type="button">حذف</button>`:(x.canCreateAccounts?'<span class="hint">إنشاء حسابات</span>':'—')}</td></tr>`).join("");
-   root.innerHTML=`<table class="accounttable"><thead><tr><th>اسم الحساب</th><th>تاريخ الانتهاء</th><th>الحالة</th><th>${isOwner()?"إجراء":"الصلاحية"}</th></tr></thead><tbody>${rows}</tbody></table>`;
+   const rows=a.map((x,i)=>`<tr><td>${esc(x.username)}</td><td>${new Date(x.expiresAt).toLocaleString("ar")}</td><td>${Date.now()>=x.expiresAt?'<span style="color:#ff7185">منتهي</span>':'<span style="color:#3be0ad">نشط</span>'}</td><td>${canDeleteAccounts()?`<button class="btn danger" data-delete-account="${i}" type="button">حذف</button>`:([x.canCreateAccounts?'إنشاء حسابات':'',x.canDeleteAccounts?'حذف حسابات':''].filter(Boolean).join(' + ')||'—')}</td></tr>`).join("");
+   root.innerHTML=`<table class="accounttable"><thead><tr><th>اسم الحساب</th><th>تاريخ الانتهاء</th><th>الحالة</th><th>${canDeleteAccounts()?"إجراء":"الصلاحية"}</th></tr></thead><tbody>${rows}</tbody></table>`;
    root.querySelectorAll("[data-delete-account]").forEach(btn=>btn.addEventListener("click",()=>{
-     if(!isOwner())return;
+     if(!canDeleteAccounts())return;
      const list=readAccounts(),index=Number(btn.dataset.deleteAccount);
      if(!Number.isInteger(index)||!list[index])return;
      const removed=list.splice(index,1)[0];saveAccounts(list);renderAccounts();setMsg("accountStatus","تم حذف الحساب: "+removed.username,"good");
@@ -404,13 +416,15 @@ $("downloadReport").onclick=()=>{if(!reportData)return;download(te.encode(JSON.s
    if(password.length<4){setMsg("accountStatus","اجعل كلمة المرور 4 أحرف على الأقل.","bad");return}
    if(!ms){setMsg("accountStatus","أدخل مدة صحيحة أكبر من صفر.","bad");return}
    const list=readAccounts();
-   if(list.some(a=>a.username.toLowerCase()===username.toLowerCase())){setMsg("accountStatus","اسم الحساب مستخدم بالفعل.","bad");return}
+   if(list.some(a=>clean(a.username).toLocaleLowerCase()===username.toLocaleLowerCase())){setMsg("accountStatus","اسم الحساب مستخدم بالفعل.","bad");return}
    try{
      const h=await hashPassword(password);
-     const grantPermission=isOwner() && $("grantCreatePermission").checked;
-     list.push({username,salt:h.salt,hash:h.hash,canCreateAccounts:grantPermission,createdBy:activeSession.username,createdAt:Date.now(),expiresAt:Date.now()+ms});
-     saveAccounts(list);$("newUsername").value="";$("newPassword").value="";$("grantCreatePermission").checked=false;renderAccounts();
-     setMsg("accountStatus",grantPermission?"تم إنشاء الحساب ومنحه صلاحية إنشاء حسابات.":"تم إنشاء الحساب بنجاح، ويمكنه تسجيل الدخول الآن.","good");
+     const grantCreate=isOwner() && $("grantCreatePermission").checked;
+     const grantDelete=isOwner() && $("grantDeletePermission").checked;
+     list.push({username,salt:h.salt,hash:h.hash,canCreateAccounts:grantCreate,canDeleteAccounts:grantDelete,createdBy:activeSession.username,createdAt:Date.now(),expiresAt:Date.now()+ms});
+     saveAccounts(list);$("newUsername").value="";$("newPassword").value="";$("grantCreatePermission").checked=false;$("grantDeletePermission").checked=false;renderAccounts();
+     const granted=[grantCreate?"إنشاء الحسابات":"",grantDelete?"حذف الحسابات":""].filter(Boolean);
+     setMsg("accountStatus",granted.length?"تم إنشاء الحساب ومنحه صلاحية: "+granted.join(" و ")+".":"تم إنشاء الحساب بنجاح، ويمكنه تسجيل الدخول الآن.","good");
    }catch{setMsg("accountStatus","تعذر إنشاء الحساب في هذا المتصفح. افتح الصفحة في Chrome حديث.","bad")}
  }
  $("loginBtn").addEventListener("click",login);
@@ -427,14 +441,14 @@ $("downloadReport").onclick=()=>{if(!reportData)return;download(te.encode(JSON.s
  }));
  // Restore a still-valid session, but never restore an expired user session.
  const previous=getSession();
- if(previous && (!previous.expiresAt || Date.now()<previous.expiresAt)){
-   if(previous.owner && previous.username===OWNER_USER)showApp(previous);
-   else if(!previous.owner){
-     const account=readAccounts().find(a=>a.username===previous.username && Date.now()<a.expiresAt);
-     if(account)showApp({username:account.username,owner:false,canCreateAccounts:account.canCreateAccounts===true,expiresAt:account.expiresAt});
-     else logout("انتهت صلاحية الحساب أو تم حذفه.");
-   }else logout();
- }else logout(previous?"انتهت مدة الحساب. سجّل الدخول مجددًا.":"");
+ if(previous && previous.owner===true && previous.username===OWNER_USER){
+   showApp({username:OWNER_USER,owner:true,expiresAt:null});
+ }else if(previous && previous.username){
+   const account=readAccounts().find(a=>clean(a.username).toLocaleLowerCase()===clean(previous.username).toLocaleLowerCase());
+   if(account && Date.now()<account.expiresAt){
+     showApp({username:account.username,owner:false,canCreateAccounts:account.canCreateAccounts===true,canDeleteAccounts:account.canDeleteAccounts===true,expiresAt:account.expiresAt});
+   }else logout("انتهت صلاحية الحساب أو تم حذفه. سجّل الدخول مجددًا.");
+ }else logout();
  renderAccounts();
  setInterval(()=>{
    if(activeSession&&!activeSession.owner&&activeSession.expiresAt&&Date.now()>=activeSession.expiresAt){
