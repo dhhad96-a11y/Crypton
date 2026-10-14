@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#070b14">
+<title>Crypton Pro — ₐDₕₐₘ</title>
+<style>
+:root{color-scheme:dark;--bg:#070b14;--panel:#0d1524;--panel2:#101c30;--line:#223653;--blue:#367cff;--cyan:#53d8ff;--text:#edf4ff;--muted:#93a8c5;--green:#3be0ad;--red:#ff7185}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% -15%,#17366a 0,#0a1222 38%,#05070d 75%);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif}
+button,input,textarea{font:inherit}button{cursor:pointer}.shell{max-width:1160px;width:calc(100% - 28px);margin:auto;padding:22px 0 40px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:24px}.brand{display:flex;align-items:center;gap:12px}.logo{width:48px;height:48px;display:grid;place-items:center;border-radius:15px;background:linear-gradient(145deg,#3c83ff,#10234b);box-shadow:0 8px 30px #367cff35;border:1px solid #6aa2ff55}.logo svg{width:27px;height:27px}.brandname{font-weight:900;letter-spacing:.4px;font-size:25px}.brandline{font-size:12px;color:var(--muted);margin-top:2px}.userchip{display:flex;align-items:center;gap:8px;padding:9px 12px;border:1px solid #2a4264;border-radius:13px;background:#0c1728;color:#bcd6ff;font-size:13px;white-space:nowrap}.online{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 12px #3be0ad}
+.hero{position:relative;overflow:hidden;padding:clamp(23px,5vw,42px);border-radius:25px;border:1px solid #294774;background:linear-gradient(115deg,#11284aee,#0a1221f5 68%);box-shadow:0 20px 70px #0004;margin-bottom:18px}.hero:after{content:"";position:absolute;width:240px;height:240px;border-radius:50%;border:1px solid #4d8fff25;right:-65px;top:-100px;box-shadow:0 0 0 25px #4d8fff08,0 0 0 55px #4d8fff05;pointer-events:none}.eyebrow{display:inline-flex;gap:8px;align-items:center;padding:7px 11px;border-radius:99px;background:#10264a;border:1px solid #284d83;color:#9bc8ff;font-size:12px}.hero h1{font-size:clamp(30px,5vw,48px);line-height:1.2;margin:17px 0 10px;letter-spacing:-.7px}.gradient{background:linear-gradient(90deg,#fff,#70b7ff,#56ddff);background-clip:text;-webkit-background-clip:text;color:transparent}.hero p{max-width:760px;line-height:1.9;color:#a8bad4;margin:0}.herofoot{display:flex;gap:9px;flex-wrap:wrap;margin-top:20px}.mini{border:1px solid #2a4263;background:#0a172a;padding:8px 11px;border-radius:10px;color:#bdd0eb;font-size:12px}
+.tabs{display:flex;gap:8px;padding:6px;background:#080f1b;border:1px solid var(--line);border-radius:16px;margin:18px 0;overflow:auto}.tab{flex:1;min-width:max-content;border:1px solid transparent;border-radius:11px;padding:12px 15px;background:transparent;color:var(--muted);font-weight:750}.tab.active{background:linear-gradient(135deg,#1e56a7,#153365);border-color:#3c75c6;color:white;box-shadow:0 5px 20px #1d4ed822}
+.panel{display:none}.panel.active{display:block}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.card{min-width:0;border:1px solid var(--line);border-radius:20px;padding:20px;background:linear-gradient(160deg,#101b2d,#0a111e);box-shadow:0 12px 30px #0002}.cardhead{display:flex;align-items:flex-start;gap:12px;margin-bottom:16px}.ico{flex:0 0 42px;width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:#112a4d;border:1px solid #2a4e80;color:#8bc0ff;font-size:20px}.card h2{font-size:18px;margin:1px 0 5px}.desc{font-size:12px;line-height:1.75;color:var(--muted);margin:0}.fieldlabel{display:block;color:#c8d8ee;font-size:13px;margin:13px 0 7px}.input,textarea{width:100%;min-width:0;border:1px solid #2b405e;border-radius:12px;background:#070e19;color:var(--text);padding:12px;outline:none}.input:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px #367cff20}textarea{resize:vertical;min-height:135px;line-height:1.7}.row{display:flex;gap:9px;flex-wrap:wrap}.btn{display:inline-flex;justify-content:center;align-items:center;gap:8px;padding:11px 14px;border-radius:11px;border:1px solid #3b76ca;background:linear-gradient(135deg,#2165c6,#16458b);color:white;font-weight:750;font-size:13px}.btn:hover{filter:brightness(1.12)}.btn.secondary{background:#111e31;border-color:#2b405e;color:#d8e7fb}.btn.danger{background:#381521;border-color:#793147;color:#ffdbe3}.btn:disabled{opacity:.4;cursor:not-allowed}.full{width:100%;margin-top:12px}.status{min-height:20px;font-size:12px;line-height:1.7;color:var(--muted);margin-top:10px;overflow-wrap:anywhere}.status.good{color:var(--green)}.status.bad{color:var(--red)}.hint{font-size:11px;line-height:1.8;color:#8298b5;margin-top:10px}
+.drop{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;text-align:center;min-height:155px;border:1px dashed #3a5b86;border-radius:15px;background:linear-gradient(145deg,#0b1b30,#09111f);padding:18px;transition:.15s}.drop.drag{border-color:var(--cyan);background:#102744}.drop .bigicon{font-size:30px}.drop strong{font-size:14px}.drop small{color:var(--muted);line-height:1.7}.drop input{display:none}.drop .btn{margin-top:3px}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:15px 0}.stat{border:1px solid #203653;background:#091321;border-radius:13px;padding:13px}.stat strong{display:block;font-size:20px;color:#c5e2ff}.stat span{font-size:11px;color:var(--muted)}
+.tablewrap{border:1px solid #243957;border-radius:13px;overflow:auto;margin-top:14px}table{border-collapse:collapse;width:100%;font-size:12px;min-width:500px}th,td{text-align:right;padding:11px 12px;border-bottom:1px solid #1d2e46;vertical-align:middle}th{background:#111f33;color:#a9c7ed;font-weight:750}td{color:#d2dff1}tr:last-child td{border-bottom:0}.filekind{display:inline-block;border:1px solid #2a4263;background:#0e1e32;color:#a9d1ff;border-radius:7px;padding:3px 7px;font-size:10px}.fileactions{display:flex;gap:6px;flex-wrap:wrap}.tiny{padding:6px 8px;font-size:11px;border-radius:8px}.preview{max-height:320px;overflow:auto;background:#070d17;border:1px solid #253852;border-radius:12px;padding:13px;font-size:12px;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.65;color:#cfe1fb}
+.signature{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:18px 20px;margin-top:18px;border:1px solid #2a4162;border-radius:17px;background:linear-gradient(100deg,#0c1627,#101d31)}.sigmark{font-weight:900;font-size:21px;letter-spacing:.6px;background:linear-gradient(90deg,#fff,#77baff);background-clip:text;-webkit-background-clip:text;color:transparent}.sigsub{font-size:11px;color:var(--muted);margin-top:4px}.social{direction:ltr;color:#9ac8ff;font-size:13px;font-weight:800}.security{margin-top:14px;border:1px solid #31415a;border-radius:13px;padding:13px 15px;background:#0a1220;color:#93a8c5;font-size:11px;line-height:1.9}.security strong{color:#d7e8ff}footer{text-align:center;color:#647a98;font-size:11px;margin-top:19px;line-height:1.8}
+@media(max-width:760px){.grid{grid-template-columns:1fr}.shell{width:calc(100% - 18px);padding-top:13px}.topbar{align-items:flex-start}.brandname{font-size:22px}.userchip{font-size:11px;padding:8px}.hero{padding:23px 18px}.card{padding:16px}.tabs{margin:14px 0}.tab{padding:11px 12px}.stats{gap:7px}.stat{padding:10px}.stat strong{font-size:17px}}
+
+.authgate{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;padding:18px;background:radial-gradient(ellipse at 50% 0,#15376a 0,#080d18 48%,#030509 100%);overflow:auto}
+.authcard{width:min(100%,470px);border:1px solid #2c4e7c;border-radius:24px;padding:clamp(22px,5vw,34px);background:linear-gradient(160deg,#101d31,#080e18);box-shadow:0 24px 90px #0009}
+.authbrand{display:flex;align-items:center;gap:12px;margin-bottom:22px}.authlogo{width:48px;height:48px;display:grid;place-items:center;border-radius:15px;background:linear-gradient(145deg,#3c83ff,#10234b);font-size:23px}
+.authcard h1{font-size:26px;margin:0 0 7px}.authcard .desc{line-height:1.9}.authnotice{border:1px solid #624c2c;background:#251b0c;color:#f4d39a;padding:10px 12px;border-radius:12px;font-size:11px;line-height:1.8;margin-top:14px}
+.authgate .status{min-height:22px}.adminOnly{display:none}.accounttools{margin-top:16px}.accounttools .input{margin-bottom:2px}.smallnote{font-size:11px;line-height:1.8;color:var(--muted);margin-top:9px}
+.accounttable{width:100%;min-width:550px;border-collapse:collapse}.accounttable td,.accounttable th{padding:10px;border-bottom:1px solid #20324b;text-align:right;font-size:12px}.accounttable th{color:#a9c7ed;background:#111f33}
+body.authlocked .shell{display:none}
+@media(max-width:640px){.authcard{border-radius:19px}.authcard h1{font-size:23px}}
+
+</style>
+</head>
+<body>
+
+<div id="authGate" class="authgate">
+  <section class="authcard" aria-label="تسجيل الدخول">
+    <div class="authbrand"><div class="authlogo">🔐</div><div><div class="brandname">CRYPTON <span style="color:#66b7ff">PRO</span></div><div class="brandline">تسجيل الدخول إلى المنصة</div></div></div>
+    <h1>مرحبًا بك</h1>
+    <p class="desc">سجّل الدخول بالحساب الذي أنشأه المالك.</p>
+    <label class="fieldlabel" for="loginUser">اسم الحساب</label>
+    <input id="loginUser" class="input" autocomplete="username" placeholder="اسم المستخدم">
+    <label class="fieldlabel" for="loginPass">كلمة المرور</label>
+    <input id="loginPass" class="input" type="password" autocomplete="current-password" placeholder="كلمة المرور">
+    <button id="loginBtn" class="btn full">دخول</button>
+    <div id="loginStatus" class="status" role="status" aria-live="polite"></div>
+    <div class="authnotice">هذه نسخة HTML تجريبية محلية. الحسابات ومدة الصلاحية تُحفظ في هذا المتصفح فقط؛ لتعمل الحسابات بين أشخاص وأجهزة مختلفة على موقع مستضاف، يلزم ربط قاعدة بيانات وخادم مصادقة.</div>
+  </section>
+</div>
+
+<div class="shell">
+<header class="topbar">
+  <div class="brand">
+    <div class="logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><path d="M12 2.8 20 6v5.3c0 5-3.5 8.2-8 10-4.5-1.8-8-5-8-10V6z"/><rect x="8" y="10" width="8" height="6" rx="1.5"/><path d="M10 10V8.5a2 2 0 0 1 4 0V10"/></svg></div>
+    <div><div class="brandname">CRYPTON <span style="color:#66b7ff">PRO</span></div><div class="brandline">Privacy tools · File intelligence</div></div>
+  </div>
+  <div class="row" style="align-items:center;justify-content:flex-end">
+    <div class="userchip"><span class="online"></span><span id="currentUserLabel">MADE BY ₐDₕₐₘ</span></div>
+    <button class="btn secondary" id="logoutBtn" type="button">خروج</button>
+  </div>
+</header>
+
+<section class="hero">
+  <span class="eyebrow">✦ ADVANCED LOCAL TOOLKIT · V1.0</span>
+  <h1>أدواتك. ملفاتك. <span class="gradient">خصوصيتك.</span></h1>
+  <p>منصة محلية لتشفير النصوص والملفات، واستكشاف محتويات أرشيفات ZIP، ومعرفة نوع الملف والملفات والمراجع الموجودة بداخله. تتم المعالجة على جهازك داخل المتصفح.</p>
+  <div class="herofoot"><span class="mini">🔐 AES-GCM 256-bit</span><span class="mini">📦 ZIP Explorer</span><span class="mini">🧬 Source Inspector</span><span class="mini">◉ Local processing</span></div>
+</section>
+
+<nav class="tabs" aria-label="الأدوات">
+  <button class="tab active" data-tab="crypto">🔐 التشفير</button>
+  <button class="tab" data-tab="inspect">📦 فحص الملفات</button>
+  <button class="tab adminOnly" id="accountsTab" data-tab="accounts">👥 إدارة الحسابات</button>
+  <button class="tab" data-tab="about">✦ حول Crypton</button>
+</nav>
+
+<section id="crypto" class="panel active">
+<div class="grid">
+  <article class="card">
+    <div class="cardhead"><div class="ico">⌁</div><div><h2>تشفير النصوص</h2><p class="desc">أنشئ نصًا مشفرًا بكلمة مرور لاستخدامه لاحقًا.</p></div></div>
+    <label class="fieldlabel" for="plain">النص أو النص المشفر</label>
+    <textarea id="plain" placeholder="اكتب النص هنا، أو الصق نص Crypton المشفر لفكّه..."></textarea>
+    <label class="fieldlabel" for="pass">كلمة المرور</label><input id="pass" class="input" type="password" autocomplete="new-password" placeholder="اختر كلمة مرور قوية">
+    <div class="row" style="margin-top:12px"><button class="btn" id="encryptText">🔒 تشفير</button><button class="btn secondary" id="decryptText">🔓 فك التشفير</button></div>
+    <label class="fieldlabel" for="textResult">النتيجة</label><textarea id="textResult" placeholder="ستظهر النتيجة هنا..." readonly></textarea>
+    <div class="row" style="margin-top:9px"><button class="btn secondary" id="copyResult">نسخ النتيجة</button><button class="btn secondary" id="useResult">إعادتها لخانة النص</button></div>
+    <div id="textStatus" class="status" role="status" aria-live="polite"></div>
+  </article>
+  <article class="card">
+    <div class="cardhead"><div class="ico">▣</div><div><h2>تشفير الملفات</h2><p class="desc">شفّر أي ملف يمكن للمتصفح قراءته ثم نزّل النسخة المشفرة.</p></div></div>
+    <div class="drop" id="cryptDrop"><div class="bigicon">⇧</div><strong>اسحب الملف إلى هنا</strong><small>أو اختر ملفًا من هاتفك</small><label class="btn secondary" for="cryptFile" style="margin:0">اختيار ملف</label><input id="cryptFile" type="file"></div>
+    <div id="cryptFileInfo" class="status">لم يتم اختيار ملف.</div>
+    <label class="fieldlabel" for="filePass">كلمة المرور</label><input id="filePass" class="input" type="password" autocomplete="new-password" placeholder="أدخل كلمة مرور">
+    <div class="row" style="margin-top:12px"><button class="btn" id="encryptFile">🔒 تشفير الملف</button><button class="btn secondary" id="decryptFile">🔓 فك التشفير</button></div>
+    <div id="fileStatus" class="status" role="status" aria-live="polite"></div>
+    <p class="hint">صيغة الملف المشفر: .crypton — احتفظ بكلمة المرور. جرّب على نسخة من ملفاتك أولًا.</p>
+  </article>
+</div>
+<div class="security"><strong>تنبيه أمني:</strong> التشفير محلي باستخدام Web Crypto API. لا يمكن استعادة كلمة المرور المنسية. افتح الموقع في إصدار حديث من Chrome؛ قد تتطلب بعض ميزات التشفير سياقًا آمنًا عند استضافة الموقع.</div>
+</section>
+
+<section id="inspect" class="panel">
+  <div class="grid">
+    <article class="card">
+      <div class="cardhead"><div class="ico">⌕</div><div><h2>فاحص الملفات الذكي</h2><p class="desc">اعرف نوع الملف، حجمه، امتداده، وبصمة SHA-256 إن كانت مدعومة.</p></div></div>
+      <div class="drop" id="inspectDrop"><div class="bigicon">📂</div><strong>اختر ملفًا لفحصه</strong><small>ZIP أو HTML أو JS أو CSS أو JSON أو XML أو TXT أو ملفات أخرى</small><label class="btn secondary" for="inspectFile" style="margin:0">اختيار ملف للفحص</label><input id="inspectFile" type="file"></div>
+      <div id="inspectStatus" class="status" role="status" aria-live="polite"></div>
+      <div id="fileStats" class="stats" style="display:none">
+        <div class="stat"><strong id="statSize">—</strong><span>حجم الملف</span></div>
+        <div class="stat"><strong id="statType">—</strong><span>النوع المكتشف</span></div>
+        <div class="stat"><strong id="statCount">—</strong><span>عناصر الأرشيف</span></div>
+      </div>
+      <div id="metaBox" class="security" style="display:none"></div>
+      <div id="hashBox" class="security" style="display:none"></div>
+    </article>
+    <article class="card">
+      <div class="cardhead"><div class="ico">⌘</div><div><h2>تحليل المصدر والمراجع</h2><p class="desc">عند فحص ملف نصي أو صفحة ويب، يعرض أسماء الملفات المشار إليها داخله، مثل ملفات CSS وJavaScript والصور.</p></div></div>
+      <div id="sourceInfo" class="hint">اختر ملفًا نصيًا أو HTML لتحليل محتواه.</div>
+      <div id="refsTable"></div>
+      <label class="fieldlabel" for="preview">معاينة المحتوى النصي</label>
+      <pre id="preview" class="preview">لا توجد معاينة بعد.</pre>
+      <div class="row" style="margin-top:10px"><button id="downloadReport" class="btn secondary" disabled>تنزيل تقرير الفحص</button></div>
+    </article>
+  </div>
+  <article class="card" style="margin-top:16px">
+    <div class="cardhead"><div class="ico">▤</div><div><h2>محتويات الأرشيف / الملفات المكتشفة</h2><p class="desc">إذا كان الملف ZIP أو APK أو JAR أو DOCX أو XLSX، فسيحاول Crypton قراءة قائمة العناصر واستخراج العناصر المدعومة. استخدم هذا القسم للأرشيفات العادية؛ زر فك تشفير Crypton مخصص فقط لملفات .crypton التي أنشأها هذا الموقع.</p></div></div>
+    <div id="archiveSummary" class="hint">لم يتم فحص أي أرشيف حتى الآن.</div>
+    <div id="archiveTable"></div>
+  </article>
+  <div class="security"><strong>حدود الفحص:</strong> لا يستطيع أي موقع استرجاع «كل الملفات الأصلية» من ملف منفرد إذا لم تكن مضمنة فيه. يمكن لـ Crypton عرض الملفات داخل أرشيف ZIP، والملفات التي يشير إليها المصدر النصي، ومعاينة الملفات النصية. قد لا تُستخرج الأرشيفات ZIP64 أو متعددة الأجزاء أو العناصر المحمية بكلمة مرور أو التي تستخدم طرق ضغط غير مدعومة. هذا فحص واستخراج للأرشيف وليس فك تشفير لملفات أنشأتها أدوات أخرى. لا تشغّل ملفات مجهولة.</div>
+</section>
+
+
+<section id="accounts" class="panel">
+  <article class="card">
+    <div class="cardhead"><div class="ico">👥</div><div><h2>إنشاء حساب جديد</h2><p class="desc">أنشئ حسابًا باسم مستخدم وكلمة مرور وحدد مدة صلاحيته. بصفتك المالك يمكنك أيضًا منح حساب محدد صلاحية إنشاء حسابات أخرى.</p></div></div>
+    <div class="grid">
+      <div><label class="fieldlabel" for="newUsername">اسم المستخدم</label><input class="input" id="newUsername" autocomplete="off" placeholder="مثال: user01"></div>
+      <div><label class="fieldlabel" for="newPassword">كلمة المرور</label><input class="input" id="newPassword" type="password" autocomplete="new-password" placeholder="كلمة مرور للحساب"></div>
+      <div><label class="fieldlabel" for="durationValue">مدة الحساب</label><input class="input" id="durationValue" type="number" min="1" step="1" value="7"></div>
+      <div><label class="fieldlabel" for="durationUnit">وحدة المدة</label><select class="input" id="durationUnit"><option value="hours">ساعات</option><option value="days" selected>أيام</option><option value="weeks">أسابيع</option><option value="months">أشهر (30 يومًا)</option></select></div>
+    </div>
+    <div id="grantPermissionField" style="display:none;margin-top:12px;padding:12px;border:1px solid #2c4e7c;border-radius:12px;background:#0a1424">
+      <label style="display:flex;align-items:center;gap:10px;cursor:pointer">
+        <input id="grantCreatePermission" type="checkbox" style="width:18px;height:18px;accent-color:#438cff">
+        <span><strong>منح صلاحية إنشاء حسابات</strong><br><span class="smallnote">عند تفعيلها، يستطيع هذا المستخدم إنشاء حسابات أخرى فقط، ولا يستطيع منح الصلاحية لغيره أو حذف الحسابات.</span></span>
+      </label>
+    </div>
+    <div class="row" style="margin-top:14px"><button class="btn" id="createAccountBtn">＋ إنشاء الحساب</button><button class="btn secondary" id="refreshAccountsBtn">تحديث القائمة</button></div>
+    <div id="accountStatus" class="status" role="status" aria-live="polite"></div>
+    <p class="smallnote">ملاحظة: في هذه النسخة، الحسابات تعمل على نفس المتصفح والجهاز فقط. لا تشارك بيانات المالك؛ كلمة مرور المالك مضمّنة في ملف HTML ولا تُعدّ وسيلة آمنة لخادم عام.</p>
+  </article>
+  <article class="card accounttools">
+    <div class="cardhead"><div class="ico">▤</div><div><h2>الحسابات المنشأة</h2><p class="desc">يمكنك حذف حساب من هذه القائمة. الحسابات المنتهية لا تستطيع تسجيل الدخول.</p></div></div>
+    <div id="accountsList" class="tablewrap"><div style="padding:12px" class="hint">لا توجد حسابات بعد.</div></div>
+  </article>
+</section>
+
+<section id="about" class="panel">
+  <div class="card">
+    <div class="cardhead"><div class="ico">✦</div><div><h2>Crypton Pro</h2><p class="desc">واجهة أدوات خصوصية محلية بتصميم أسود وأزرق.</p></div></div>
+    <div class="stats">
+      <div class="stat"><strong>256-bit</strong><span>AES-GCM</span></div>
+      <div class="stat"><strong>SHA-256</strong><span>بصمة الملفات</span></div>
+      <div class="stat"><strong>Local</strong><span>معالجة داخل المتصفح</span></div>
+    </div>
+    <p class="desc" style="font-size:14px">يضم الموقع تشفير النصوص والملفات، وفحص بيانات الملف، وتحليل مراجع ملفات المصدر، واستعراض عناصر أرشيف ZIP واستخراج العناصر المدعومة.</p>
+    <div class="signature"><div><div class="sigmark">ₐDₕₐₘ</div><div class="sigsub">Original creator signature · Crypton</div></div><div class="social">@BX_MG</div></div>
+  </div>
+</section>
+
+<div class="signature"><div><div class="sigmark">ₐDₕₐₘ</div><div class="sigsub">MADE WITH CARE · CRYPTON PRO</div></div><div class="social">@BX_MG</div></div>
+<footer>Crypton Pro · جميع عمليات الفحص تتم محليًا داخل متصفحك حيثما أمكن.<br>لا ترفع ملفات حساسة إلى أي خدمة غير موثوقة.</footer>
+</div>
+
+<script>
+(() => {
+const $=id=>document.getElementById(id), te=new TextEncoder(), td=new TextDecoder();
+const MAGIC="CRYPTON1", ITERATIONS=310000;
+let inspectFile=null, cryptFile=null, archiveEntries=[], reportData=null;
+document.querySelectorAll(".tab").forEach(btn=>btn.addEventListener("click",()=>{
+ document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x===btn));
+ document.querySelectorAll(".panel").forEach(x=>x.classList.toggle("active",x.id===btn.dataset.tab));
+}));
+function status(id,msg,kind=""){const e=$(id);e.textContent=msg;e.className="status "+kind}
+function sizeText(n){if(n<1024)return n+" B";if(n<1048576)return (n/1024).toFixed(1)+" KB";if(n<1073741824)return (n/1048576).toFixed(2)+" MB";return (n/1073741824).toFixed(2)+" GB"}
+function b64(a){let s="";for(let i=0;i<a.length;i+=32768)s+=String.fromCharCode(...a.subarray(i,Math.min(i+32768,a.length)));return btoa(s)}
+function unb64(s){const b=atob(s),a=new Uint8Array(b.length);for(let i=0;i<b.length;i++)a[i]=b.charCodeAt(i);return a}
+function rand(n){return crypto.getRandomValues(new Uint8Array(n))}
+async function keyFor(p,s){const m=await crypto.subtle.importKey("raw",te.encode(p),"PBKDF2",false,["deriveKey"]);return crypto.subtle.deriveKey({name:"PBKDF2",salt:s,iterations:ITERATIONS,hash:"SHA-256"},m,{name:"AES-GCM",length:256},false,["encrypt","decrypt"])}
+async function encryptBytes(data,p){if(!crypto.subtle)throw Error("التشفير غير متاح هنا. استخدم Chrome حديثًا أو افتح الموقع عبر HTTPS.");if(!p)throw Error("أدخل كلمة المرور.");const salt=rand(16),iv=rand(12),key=await keyFor(p,salt),cipher=new Uint8Array(await crypto.subtle.encrypt({name:"AES-GCM",iv},key,data)),head=te.encode(MAGIC),out=new Uint8Array(head.length+salt.length+iv.length+cipher.length);out.set(head);out.set(salt,head.length);out.set(iv,head.length+16);out.set(cipher,head.length+28);return out}
+async function decryptBytes(data,p){
+ if(!crypto.subtle)throw Error("التشفير غير متاح هنا. استخدم Chrome حديثًا أو افتح الموقع عبر HTTPS.");
+ if(!p)throw Error("أدخل كلمة المرور.");
+ const h=te.encode(MAGIC);
+ if(data.length<h.length||h.some((v,i)=>data[i]!==v))
+  throw Error("هذا ليس ملف Crypton مشفرًا. ملفات APK وZIP العادية تُفتح من تبويب «فحص الملفات»، وليس من زر فك تشفير Crypton.");
+ if(data.length<h.length+44)throw Error("ملف Crypton غير مكتمل أو تالف.");
+ const salt=data.slice(h.length,h.length+16),iv=data.slice(h.length+16,h.length+28),cipher=data.slice(h.length+28),key=await keyFor(p,salt);
+ try{return new Uint8Array(await crypto.subtle.decrypt({name:"AES-GCM",iv},key,cipher))}
+ catch{throw Error("تعذر فك ملف Crypton. تحقق من كلمة المرور أو من أن الملف لم يتلف أو يتغير.")}
+}
+function download(data,name,type="application/octet-stream"){const url=URL.createObjectURL(new Blob([data],{type})),a=document.createElement("a");a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000)}
+$("encryptText").onclick=async()=>{try{const s=$("plain").value;if(!s)throw Error("اكتب نصًا أولًا.");$("textResult").value=MAGIC+":"+b64(await encryptBytes(te.encode(s),$("pass").value));status("textStatus","تم تشفير النص.","good")}catch(e){status("textStatus",e.message,"bad")}};
+$("decryptText").onclick=async()=>{try{const s=$("plain").value.trim();if(!s.startsWith(MAGIC+":"))throw Error("الصق نص Crypton المشفر في خانة النص.");$("textResult").value=td.decode(await decryptBytes(unb64(s.slice(MAGIC.length+1)),$("pass").value));status("textStatus","تم فك التشفير.","good")}catch(e){status("textStatus",e.message,"bad")}};
+$("copyResult").onclick=async()=>{if(!$("textResult").value)return status("textStatus","لا توجد نتيجة.","bad");try{await navigator.clipboard.writeText($("textResult").value);status("textStatus","تم النسخ.","good")}catch{$("textResult").select();status("textStatus","حدد النص وانسخه يدويًا.")}};
+$("useResult").onclick=()=>{$("plain").value=$("textResult").value;status("textStatus","تم نقل النتيجة إلى خانة النص.","good")};
+function setCryptFile(f){cryptFile=f;$("cryptFileInfo").textContent=f?`${f.name} · ${sizeText(f.size)}`:"لم يتم اختيار ملف."}
+$("cryptFile").onchange=e=>setCryptFile(e.target.files[0]||null);
+$("encryptFile").onclick=async()=>{try{if(!cryptFile)throw Error("اختر ملفًا أولًا.");status("fileStatus","جارٍ التشفير…");download(await encryptBytes(new Uint8Array(await cryptFile.arrayBuffer()),$("filePass").value),cryptFile.name+".crypton");status("fileStatus","تم التشفير وتنزيل الملف.","good")}catch(e){status("fileStatus",e.message,"bad")}};
+$("decryptFile").onclick=async()=>{try{if(!cryptFile)throw Error("اختر ملفًا مشفرًا أولًا.");status("fileStatus","جارٍ فك التشفير…");const d=await decryptBytes(new Uint8Array(await cryptFile.arrayBuffer()),$("filePass").value),n=cryptFile.name.endsWith(".crypton")?cryptFile.name.slice(0,-8):cryptFile.name+".decrypted";download(d,n);status("fileStatus","تم فك التشفير وتنزيل الملف.","good")}catch(e){status("fileStatus",e.message,"bad")}};
+function setupDrop(zone,input,cb){const z=$(zone);z.addEventListener("dragover",e=>{e.preventDefault();z.classList.add("drag")});z.addEventListener("dragleave",()=>z.classList.remove("drag"));z.addEventListener("drop",e=>{e.preventDefault();z.classList.remove("drag");const f=e.dataTransfer.files[0];if(f)cb(f)});$(input).addEventListener("change",e=>{const f=e.target.files[0];if(f)cb(f)})}
+setupDrop("cryptDrop","cryptFile",setCryptFile);
+function u16(v,o){return v.getUint16(o,true)}function u32(v,o){return v.getUint32(o,true)}
+async function inflateRaw(bytes){
+ if(typeof DecompressionStream==="undefined")throw Error("متصفحك لا يدعم فك ضغط ZIP مباشرة. افتح Crypton Pro في Chrome حديث.");
+ let ds;try{ds=new DecompressionStream("deflate-raw")}catch{throw Error("نسخة المتصفح لا تدعم طريقة ضغط هذا العنصر (deflate-raw). حدّث Chrome ثم أعد المحاولة.")}
+ try{const stream=new Blob([bytes]).stream().pipeThrough(ds);return new Uint8Array(await new Response(stream).arrayBuffer())}
+ catch{throw Error("تعذر فك ضغط بيانات العنصر. قد يكون الأرشيف تالفًا أو يستخدم تنسيق ضغط غير متوافق.")}
+}
+function crc32(bytes){
+ let c=0xffffffff;
+ for(let i=0;i<bytes.length;i++){c^=bytes[i];for(let k=0;k<8;k++)c=(c>>>1)^((c&1)?0xedb88320:0)}
+ return (c^0xffffffff)>>>0;
+}
+async function readZip(buf){
+ const bytes=new Uint8Array(buf),dv=new DataView(buf);let eocd=-1;
+ const min=Math.max(0,bytes.length-65557);
+ for(let i=bytes.length-22;i>=min;i--){
+  if(i+22<=bytes.length&&u32(dv,i)===0x06054b50&&i+22+u16(dv,i+20)===bytes.length){eocd=i;break}
+ }
+ if(eocd<0)throw Error("لم يتم العثور على نهاية أرشيف ZIP صحيحة. قد يكون الملف تالفًا أو يستخدم ZIP64 غير المدعوم.");
+ const disk=u16(dv,eocd+4),cdDisk=u16(dv,eocd+6),onDisk=u16(dv,eocd+8),total=u16(dv,eocd+10),cdSize=u32(dv,eocd+12),cdOff=u32(dv,eocd+16);
+ if(disk!==0||cdDisk!==0||onDisk!==total)throw Error("الأرشيف متعدد الأجزاء غير مدعوم؛ استخدم ملف ZIP الكامل.");
+ if(total===0xffff||cdOff===0xffffffff||cdSize===0xffffffff)throw Error("أرشيف ZIP64 غير مدعوم في هذه النسخة.");
+ if(cdOff+cdSize>eocd||cdOff+cdSize>bytes.length)throw Error("فهرس ZIP غير مكتمل أو تالف.");
+ const out=[];let p=cdOff;
+ for(let i=0;i<total;i++){
+  if(p+46>bytes.length||u32(dv,p)!==0x02014b50)throw Error("تعذر قراءة قائمة الملفات في الأرشيف؛ قد يكون ZIP تالفًا أو غير مدعوم.");
+  const flags=u16(dv,p+8),method=u16(dv,p+10),crc=u32(dv,p+16),csize=u32(dv,p+20),usize=u32(dv,p+24),nl=u16(dv,p+28),el=u16(dv,p+30),cl=u16(dv,p+32),lo=u32(dv,p+42);
+  const next=p+46+nl+el+cl;
+  if(next>cdOff+cdSize||lo+30>bytes.length)throw Error("بيانات أحد عناصر ZIP غير مكتملة.");
+  const nameBytes=bytes.slice(p+46,p+46+nl);let name;
+  try{name=(flags&0x800)?new TextDecoder("utf-8",{fatal:true}).decode(nameBytes):new TextDecoder("utf-8",{fatal:true}).decode(nameBytes)}
+  catch{name=new TextDecoder("windows-1252").decode(nameBytes)}
+  if(u32(dv,lo)!==0x04034b50)throw Error("ترويسة عنصر ZIP غير صحيحة: "+name);
+  const localNameLen=u16(dv,lo+26),localExtraLen=u16(dv,lo+28),dataStart=lo+30+localNameLen+localExtraLen,dataEnd=dataStart+csize;
+  if(dataStart>bytes.length||dataEnd>bytes.length)throw Error("بيانات العنصر خارج حدود الملف: "+name);
+  out.push({name,method,crc,csize,usize,flags,offset:dataStart,isDir:name.endsWith("/")});
+  p=next;
+ }
+ return out.map(e=>({...e,_bytes:bytes}));
+}
+async function extractEntry(e){
+ if(e.isDir)return new Uint8Array();
+ if(e.flags&1)throw Error("العنصر محمي بكلمة مرور ZIP. لا يدعم Crypton Pro فك تشفير عناصر ZIP المحمية.");
+ const data=e._bytes.slice(e.offset,e.offset+e.csize);let result;
+ if(e.method===0){if(data.length!==e.usize)throw Error("حجم العنصر غير متطابق: "+e.name);result=data}
+ else if(e.method===8){result=await inflateRaw(data);if(result.length!==e.usize)throw Error("حجم العنصر بعد فك الضغط غير متطابق: "+e.name)}
+ else throw Error("طريقة الضغط "+e.method+" غير مدعومة لهذا العنصر: "+e.name);
+ if(crc32(result)!==e.crc)throw Error("فشل التحقق من سلامة العنصر بعد الاستخراج: "+e.name+" (قد يكون الملف تالفًا).");
+ return result;
+}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function ext(name){const b=name.split("/").pop();return b.includes(".")?b.split(".").pop().toLowerCase():"—"}
+function guessType(f,b){const x=ext(f.name);if(b.length>=4&&b[0]===0x50&&b[1]===0x4b)return "ZIP / ZIP-based";const sig=Array.from(b.slice(0,4));if(sig[0]===0x89&&sig[1]===0x50)return "PNG image";if(sig[0]===0xff&&sig[1]===0xd8)return "JPEG image";if(sig[0]===0x25&&sig[1]===0x50)return "PDF";if(sig[0]===0x7f&&sig[1]===0x45&&sig[2]===0x4c&&sig[3]===0x46)return "ELF executable";if(sig[0]===0x4d&&sig[1]===0x5a)return "Windows executable";const map={html:"HTML document",htm:"HTML document",js:"JavaScript source",mjs:"JavaScript source",css:"CSS stylesheet",json:"JSON data",xml:"XML document",txt:"Text file",py:"Python source",java:"Java source",kt:"Kotlin source",c:"C source",cpp:"C++ source",md:"Markdown",svg:"SVG image",apk:"Android APK",dex:"Android DEX",jar:"Java archive",docx:"Word document",xlsx:"Excel workbook",pptx:"PowerPoint presentation"};return map[x]||f.type||"نوع غير معروف / ملف ثنائي"}
+const textExt=new Set(["html","htm","js","mjs","cjs","css","json","xml","txt","py","java","kt","c","h","cpp","hpp","md","svg","yml","yaml","toml","ini","sh","bat","gradle","properties","sql","php","rb","go","rs","ts","tsx","jsx","vue","svelte","log","csv","webmanifest"]);
+function isLikelyText(f,b){if(textExt.has(ext(f.name)))return true;const n=Math.min(b.length,4096);for(let i=0;i<n;i++)if(b[i]===0)return false;return true}
+function findRefs(text,filename){
+ const found=new Map(),add=(name,kind)=>{name=(name||"").trim().replace(/^['"]|['"]$/g,"");if(!name||/^(https?:|data:|javascript:|#|\/\/)/i.test(name))return;if(name.startsWith("mailto:"))return;const k=name+"||"+kind;if(!found.has(k))found.set(k,{name,kind})};
+ let m;
+ const patterns=[
+  {r:/<(?:script|img|source|video|audio|iframe|embed|input)\b[^>]*?\b(?:src|poster)\s*=\s*["']([^"']+)["']/gi,k:"HTML asset"},
+  {r:/<link\b[^>]*?\bhref\s*=\s*["']([^"']+)["']/gi,k:"Linked asset"},
+  {r:/@import\s+(?:url\()?["']?([^"'\s;)]+)["']?\)?/gi,k:"CSS import"},
+  {r:/url\(\s*["']?([^"')]+)["']?\s*\)/gi,k:"CSS URL"},
+  {r:/\b(?:import|export)\s+(?:[^;'"]*?\s+from\s+)?["']([^"']+)["']/g,k:"Module import"},
+  {r:/require\(\s*["']([^"']+)["']\s*\)/g,k:"Require"},
+  {r:/\bfetch\(\s*["']([^"']+)["']/g,k:"Fetch reference"}
+ ];
+ for(const p of patterns){p.r.lastIndex=0;while((m=p.r.exec(text))!==null)add(m[1],p.k)}
+ return Array.from(found.values()).filter(x=>x.name!==filename);
+}
+function renderRefs(refs){if(!refs.length){$("refsTable").innerHTML='<p class="hint">لم يتم العثور على مراجع ملفات محلية واضحة في النص.</p>';return}
+ $("refsTable").innerHTML='<div class="tablewrap"><table><thead><tr><th>المرجع</th><th>النوع</th></tr></thead><tbody>'+refs.map(r=>`<tr><td dir="ltr" style="overflow-wrap:anywhere">${esc(r.name)}</td><td><span class="filekind">${esc(r.kind)}</span></td></tr>`).join("")+'</tbody></table></div>'}
+function renderArchive(entries){
+ archiveEntries=entries;
+ $("archiveSummary").textContent=`تم العثور على ${entries.length} عنصرًا في الأرشيف. اختر استخراجًا لعنصر منفرد أو تنزيل العناصر المستخرجة كملفات منفصلة.`;
+ if(!entries.length){$("archiveTable").innerHTML='<p class="hint">الأرشيف لا يحتوي عناصر ظاهرة.</p>';return}
+ $("archiveTable").innerHTML='<div class="tablewrap"><table><thead><tr><th>اسم الملف داخل الأرشيف</th><th>الحجم الأصلي</th><th>النوع</th><th>إجراء</th></tr></thead><tbody>'+entries.map((e,i)=>`<tr><td dir="ltr" style="overflow-wrap:anywhere">${esc(e.name)}</td><td>${sizeText(e.usize)}</td><td><span class="filekind">${esc(ext(e.name))}</span></td><td><div class="fileactions"><button class="btn secondary tiny" data-extract="${i}" ${e.isDir?"disabled":""}>استخراج</button></div></td></tr>`).join("")+'</tbody></table></div>';
+ $("archiveTable").querySelectorAll("[data-extract]").forEach(b=>b.onclick=async()=>{const e=archiveEntries[+b.dataset.extract];try{b.disabled=true;b.textContent="…";const data=await extractEntry(e);download(data,e.name.split("/").pop()||"extracted-file");b.textContent="تم";}catch(err){b.textContent="خطأ";alert(err.message)}finally{b.disabled=false}});
+}
+function clearInspect(){archiveEntries=[];$("archiveTable").innerHTML="";$("refsTable").innerHTML="";$("fileStats").style.display="none";$("metaBox").style.display="none";$("hashBox").style.display="none";$("preview").textContent="جارٍ الفحص…";$("downloadReport").disabled=true}
+async function inspect(f){
+ inspectFile=f;clearInspect();status("inspectStatus","جارٍ فحص الملف…");
+ try{
+  const buf=await f.arrayBuffer(),bytes=new Uint8Array(buf),type=guessType(f,bytes),hash=crypto.subtle?Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256",buf))).map(x=>x.toString(16).padStart(2,"0")).join(""):"غير مدعوم";
+  $("fileStats").style.display="grid";$("statSize").textContent=sizeText(f.size);$("statType").textContent=type;$("statCount").textContent="—";
+  $("metaBox").style.display="block";$("metaBox").innerHTML=`<strong>بيانات الملف</strong><br>الاسم: ${esc(f.name)}<br>الامتداد: ${esc(ext(f.name))}<br>نوع MIME من المتصفح: ${esc(f.type||"غير محدد")}<br>آخر تعديل: ${f.lastModified?new Date(f.lastModified).toLocaleString():"غير معروف"}`;
+  $("hashBox").style.display="block";$("hashBox").innerHTML="<strong>SHA-256</strong><br><span dir=ltr style='overflow-wrap:anywhere'>"+esc(hash)+"</span>";
+  let refs=[];
+  const zipLike=(bytes.length>4&&bytes[0]===0x50&&bytes[1]===0x4b&&(bytes[2]===3||bytes[2]===5||bytes[2]===7));
+  if(zipLike){
+   const entries=await readZip(buf);$("statCount").textContent=String(entries.length);renderArchive(entries);
+   $("preview").textContent="هذا أرشيف ZIP أو صيغة مبنية عليه. افتح جدول المحتويات لاستخراج العناصر المدعومة.";
+   $("sourceInfo").textContent="تم اكتشاف أرشيف. العناصر الموجودة بداخله معروضة في جدول المحتويات أدناه.";
+   refs=[];
+  }else if(isLikelyText(f,bytes)){
+   let text=td.decode(bytes);if(text.charCodeAt(0)===0xfeff)text=text.slice(1);
+   $("preview").textContent=text.slice(0,12000)+(text.length>12000?"\n\n… تم اقتصار المعاينة على أول 12000 حرف.":"");
+   refs=findRefs(text,f.name);renderRefs(refs);$("sourceInfo").textContent=`تم تحليل النص (${text.length.toLocaleString()} حرف). المراجع المعروضة مستخرجة من النص وقد تكون مسارات نسبية أو مراجع خارجية مستبعدة.`;
+   $("archiveSummary").textContent="الملف المحدد ليس أرشيف ZIP معروفًا.";
+  }else{
+   $("preview").textContent="ملف ثنائي أو صيغة غير معروفة. لا يتم عرض محتواه الخام لتجنب إغراق الصفحة.";
+   $("sourceInfo").textContent="لا يمكن استخراج قائمة ملفات المصدر من ملف ثنائي منفرد إلا إذا كانت الملفات مضمنة في أرشيف أو صيغة معروفة.";
+   $("archiveSummary").textContent="لم يتم اكتشاف أرشيف ZIP.";
+  }
+  reportData={name:f.name,size:f.size,type,extension:ext(f.name),sha256:hash,references:refs,archive:archiveEntries.map(e=>({name:e.name,size:e.usize,compressedSize:e.csize,method:e.method}))};
+  $("downloadReport").disabled=false;status("inspectStatus","اكتمل فحص الملف.","good");
+ }catch(e){status("inspectStatus",e.message||"تعذر فحص الملف.","bad");$("preview").textContent="تعذر فحص هذا الملف."}
+}
+setupDrop("inspectDrop","inspectFile",inspect);
+$("downloadReport").onclick=()=>{if(!reportData)return;download(te.encode(JSON.stringify(reportData,null,2)),"crypton-inspection-report.json","application/json")};
+})();
+</script>
+
+<script>
+(() => {
+ const $ = id => document.getElementById(id);
+ const OWNER_USER = "CryptonV";
+ const OWNER_PASS = "1234";
+ const STORE_KEY = "cryptonProAccounts_v1";
+ const SESSION_KEY = "cryptonProSession_v1";
+ let activeSession = null;
+ const readAccounts = () => { try { const a=JSON.parse(localStorage.getItem(STORE_KEY)||"[]"); return Array.isArray(a)?a:[]; } catch { return []; } };
+ const saveAccounts = a => localStorage.setItem(STORE_KEY, JSON.stringify(a));
+ const setMsg = (id,msg,kind="") => { const el=$(id); if(el){el.textContent=msg;el.className="status "+kind;} };
+ const clean = s => String(s||"").trim();
+ const esc = s => String(s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ async function hashPassword(password, saltHex) {
+   const enc = new TextEncoder();
+   const salt = saltHex ? Uint8Array.from(saltHex.match(/.{2}/g).map(x=>parseInt(x,16))) : crypto.getRandomValues(new Uint8Array(16));
+   const key = await crypto.subtle.importKey("raw",enc.encode(password),"PBKDF2",false,["deriveBits"]);
+   const bits = new Uint8Array(await crypto.subtle.deriveBits({name:"PBKDF2",salt,iterations:150000,hash:"SHA-256"},key,256));
+   return {salt:Array.from(salt,x=>x.toString(16).padStart(2,"0")).join(""),hash:Array.from(bits,x=>x.toString(16).padStart(2,"0")).join("")};
+ }
+ function getSession(){try{return JSON.parse(sessionStorage.getItem(SESSION_KEY)||"null")}catch{return null}}
+ function isOwner(){return !!activeSession && activeSession.username===OWNER_USER && activeSession.owner===true}
+ function canCreateAccounts(){return isOwner() || !!(activeSession && activeSession.canCreateAccounts===true)}
+ function showApp(session){
+   activeSession=session;
+   $("authGate").style.display="none";
+   document.body.classList.remove("authlocked");
+   $("currentUserLabel").textContent=session.username+(session.owner?" · المالك":(session.canCreateAccounts?" · مسؤول حسابات":""));
+   document.querySelectorAll(".adminOnly").forEach(el=>el.style.display=session.owner?"inline-flex":"none");
+   const accountsTab=$("accountsTab");
+   if(accountsTab)accountsTab.style.display=(session.owner||session.canCreateAccounts)?"inline-flex":"none";
+   const grantField=$("grantPermissionField");
+   if(grantField)grantField.style.display=session.owner?"block":"none";
+   sessionStorage.setItem(SESSION_KEY,JSON.stringify(session));
+   if(session.expiresAt && Date.now()>=session.expiresAt){logout("انتهت مدة الحساب. سجّل الدخول بعد تجديد الصلاحية.");return}
+ }
+ function logout(message=""){
+   activeSession=null;sessionStorage.removeItem(SESSION_KEY);
+   document.body.classList.add("authlocked");
+   $("authGate").style.display="grid";
+   $("loginPass").value="";
+   setMsg("loginStatus",message);
+   document.querySelectorAll(".tab").forEach(el=>{el.classList.toggle("active",el.dataset.tab==="crypto")});
+   document.querySelectorAll(".panel").forEach(el=>el.classList.toggle("active",el.id==="crypto"));
+ }
+ function durationMs(value,unit){const n=Number(value);if(!Number.isFinite(n)||n<1||!Number.isInteger(n))return 0;return n*({hours:3600000,days:86400000,weeks:604800000,months:2592000000}[unit]||0)}
+ async function login(){
+   const username=clean($("loginUser").value),password=$("loginPass").value;
+   if(!username||!password){setMsg("loginStatus","أدخل اسم الحساب وكلمة المرور.","bad");return}
+   if(username===OWNER_USER&&password===OWNER_PASS){showApp({username:OWNER_USER,owner:true,expiresAt:null});setMsg("loginStatus","");return}
+   const accounts=readAccounts(),idx=accounts.findIndex(a=>a.username.toLowerCase()===username.toLowerCase());
+   if(idx<0){setMsg("loginStatus","الحساب أو كلمة المرور غير صحيحة.","bad");return}
+   const a=accounts[idx];
+   if(Date.now()>=a.expiresAt){setMsg("loginStatus","انتهت صلاحية هذا الحساب. تواصل مع المالك.","bad");return}
+   try{const h=await hashPassword(password,a.salt);if(h.hash!==a.hash){setMsg("loginStatus","الحساب أو كلمة المرور غير صحيحة.","bad");return}}
+   catch{setMsg("loginStatus","تعذر التحقق من كلمة المرور في هذا المتصفح.","bad");return}
+   showApp({username:a.username,owner:false,canCreateAccounts:a.canCreateAccounts===true,expiresAt:a.expiresAt});
+   setMsg("loginStatus","");
+ }
+ function renderAccounts(){
+   const root=$("accountsList");if(!root)return;
+   const a=readAccounts();
+   if(!a.length){root.innerHTML='<div style="padding:12px" class="hint">لا توجد حسابات منشأة حتى الآن.</div>';return}
+   const rows=a.map((x,i)=>`<tr><td>${esc(x.username)}</td><td>${new Date(x.expiresAt).toLocaleString("ar")}</td><td>${Date.now()>=x.expiresAt?'<span style="color:#ff7185">منتهي</span>':'<span style="color:#3be0ad">نشط</span>'}</td><td>${isOwner()?`<button class="btn danger" data-delete-account="${i}" type="button">حذف</button>`:(x.canCreateAccounts?'<span class="hint">إنشاء حسابات</span>':'—')}</td></tr>`).join("");
+   root.innerHTML=`<table class="accounttable"><thead><tr><th>اسم الحساب</th><th>تاريخ الانتهاء</th><th>الحالة</th><th>${isOwner()?"إجراء":"الصلاحية"}</th></tr></thead><tbody>${rows}</tbody></table>`;
+   root.querySelectorAll("[data-delete-account]").forEach(btn=>btn.addEventListener("click",()=>{
+     if(!isOwner())return;
+     const list=readAccounts(),index=Number(btn.dataset.deleteAccount);
+     if(!Number.isInteger(index)||!list[index])return;
+     const removed=list.splice(index,1)[0];saveAccounts(list);renderAccounts();setMsg("accountStatus","تم حذف الحساب: "+removed.username,"good");
+   }));
+ }
+ async function createAccount(){
+   if(!canCreateAccounts()){setMsg("accountStatus","ليس لديك صلاحية إنشاء الحسابات.","bad");return}
+   const username=clean($("newUsername").value),password=$("newPassword").value;
+   const ms=durationMs($("durationValue").value,$("durationUnit").value);
+   if(!/^[\p{L}\p{N}_.-]{3,32}$/u.test(username)){setMsg("accountStatus","اسم الحساب يجب أن يكون من 3 إلى 32 حرفًا أو رقمًا، ويمكن استخدام _ أو . أو -.","bad");return}
+   if(username.toLowerCase()===OWNER_USER.toLowerCase()){setMsg("accountStatus","لا يمكن استخدام اسم حساب المالك.","bad");return}
+   if(password.length<4){setMsg("accountStatus","اجعل كلمة المرور 4 أحرف على الأقل.","bad");return}
+   if(!ms){setMsg("accountStatus","أدخل مدة صحيحة أكبر من صفر.","bad");return}
+   const list=readAccounts();
+   if(list.some(a=>a.username.toLowerCase()===username.toLowerCase())){setMsg("accountStatus","اسم الحساب مستخدم بالفعل.","bad");return}
+   try{
+     const h=await hashPassword(password);
+     const grantPermission=isOwner() && $("grantCreatePermission").checked;
+     list.push({username,salt:h.salt,hash:h.hash,canCreateAccounts:grantPermission,createdBy:activeSession.username,createdAt:Date.now(),expiresAt:Date.now()+ms});
+     saveAccounts(list);$("newUsername").value="";$("newPassword").value="";$("grantCreatePermission").checked=false;renderAccounts();
+     setMsg("accountStatus",grantPermission?"تم إنشاء الحساب ومنحه صلاحية إنشاء حسابات.":"تم إنشاء الحساب بنجاح، ويمكنه تسجيل الدخول الآن.","good");
+   }catch{setMsg("accountStatus","تعذر إنشاء الحساب في هذا المتصفح. افتح الصفحة في Chrome حديث.","bad")}
+ }
+ $("loginBtn").addEventListener("click",login);
+ $("loginPass").addEventListener("keydown",e=>{if(e.key==="Enter")login()});
+ $("loginUser").addEventListener("keydown",e=>{if(e.key==="Enter")login()});
+ $("logoutBtn").addEventListener("click",()=>logout("تم تسجيل الخروج."));
+ $("createAccountBtn").addEventListener("click",createAccount);
+ $("refreshAccountsBtn").addEventListener("click",renderAccounts);
+ document.querySelectorAll(".tab").forEach(btn=>btn.addEventListener("click",()=>{
+   if(btn.dataset.tab==="accounts"&&!canCreateAccounts()){
+     btn.classList.remove("active");
+     document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("active",p.id==="crypto"));
+   }
+ }));
+ // Restore a still-valid session, but never restore an expired user session.
+ const previous=getSession();
+ if(previous && (!previous.expiresAt || Date.now()<previous.expiresAt)){
+   if(previous.owner && previous.username===OWNER_USER)showApp(previous);
+   else if(!previous.owner){
+     const account=readAccounts().find(a=>a.username===previous.username && Date.now()<a.expiresAt);
+     if(account)showApp({username:account.username,owner:false,canCreateAccounts:account.canCreateAccounts===true,expiresAt:account.expiresAt});
+     else logout("انتهت صلاحية الحساب أو تم حذفه.");
+   }else logout();
+ }else logout(previous?"انتهت مدة الحساب. سجّل الدخول مجددًا.":"");
+ renderAccounts();
+ setInterval(()=>{
+   if(activeSession&&!activeSession.owner&&activeSession.expiresAt&&Date.now()>=activeSession.expiresAt){
+     logout("انتهت مدة الحساب وتم تسجيل الخروج تلقائيًا.");
+   }
+ },5000);
+})();
+</script>
+
+</body>
+</html>
